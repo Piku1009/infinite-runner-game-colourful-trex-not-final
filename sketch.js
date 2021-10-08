@@ -40,7 +40,7 @@ function preload(){
 
 function setup() {
 
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(displayWidth, windowHeight);
   
   trex = createSprite(50,height-20,20,50);
   
@@ -51,16 +51,16 @@ function setup() {
   sun = createSprite(width-30,30,20,20)
   sun.addImage(sunImage)
   
-  ground = createSprite(200,height-11,600,20);
+  ground = createSprite(5000,height-11,displayWidth*200,50);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
-  ground.velocityX = -(6 + 3*score/100);
-  groundImage.scale=1
   
-  gameOver = createSprite(width-300,height-300);
+  groundImage.scale=20
+  
+  gameOver = createSprite(width-810,height-300);
   gameOver.addImage(gameOverImg);
   
-  restart = createSprite(width-290,height-250);
+  restart = createSprite(displayWidth-800,height-250);
   restart.addImage(restartImg);
   restart.setCollider("rectangle",- 15,-15,85,85);
   gameOver.scale = 0.5;
@@ -69,7 +69,7 @@ function setup() {
   gameOver.visible = false;
   restart.visible = false;
   
-  invisibleGround = createSprite(200,height-10,400,10);
+  invisibleGround = createSprite(200,height-10,displayWidth*100,10);
   invisibleGround.visible = false;
   
   cloudsGroup = new Group();
@@ -85,7 +85,7 @@ function draw() {
   invisibleGround.debug = true;
   if (gameState===PLAY){
     score = score + Math.round(getFrameRate()/60);
-    ground.velocityX = -(6 + 3*score/100);
+    
     //change the trex animation
     trex.changeAnimation("running", trex_running);
     
@@ -151,14 +151,14 @@ function reset()
 function spawnClouds() {
   //write code here to spawn the clouds
   if (frameCount % 60 === 0) {
-    var cloud = createSprite(600,120,40,10);
+    var cloud = createSprite(displayWidth-60,120,40,10);
     cloud.y = Math.round(random(80,120));
     cloud.addImage(cloudImage);
     cloud.scale = 0.5;
     cloud.velocityX = -3;
     
      //assign lifetime to the variable
-    cloud.lifetime = 200;
+    cloud.lifetime = 500;
     
     //adjust the depth
     cloud.depth = trex.depth;
@@ -174,7 +174,7 @@ function spawnClouds() {
 
 function spawnObstacles() {
   if(frameCount % 60 === 0) {
-    var obstacle = createSprite(600,height-32,10,40);
+    var obstacle = createSprite(displayWidth-50,height-32,10,40);
     //obstacle.debug = true;
     obstacle.velocityX = -(6 + 3*score/100);
    
